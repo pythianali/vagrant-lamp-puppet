@@ -1,0 +1,15 @@
+# Dependencies
+mod 'puppetlabs/stdlib'
+mod 'puppetlabs/apt'
+mod 'puppetlabs/inifile'
+mod 'puppetlabs/concat'
+mod 'example42/puppi'
+
+# Apache
+mod 'puppetlabs/apache'
+
+# PHP
+mod 'darin/zypprepo'
+mod 'example42/yum'
+mod 'mayflower/php',
+  :git => 'https://github.com/mayflower/puppet-php'

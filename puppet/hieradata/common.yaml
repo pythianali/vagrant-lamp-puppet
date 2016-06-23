@@ -1,0 +1,39 @@
+---
+  # Apache
+  apache::mpm_module: prefork
+  apache::default_vhost: false
+  apache::mod::php:
+    php_version: 7
+
+  # PHP installation
+  php::ensure: present
+  php::composer: false
+  php::fpm: false
+  php::globals:
+    php_version: 7
+    config_root: /etc/php/7.0
+  php::manage_repos: false
+  php::pear: false
+
+  # PHP extensions
+  php::extensions:
+    curl: {}
+    gd: {}
+    imagick:
+      package_prefix: php-
+    mcrypt: {}
+    memcached:
+      package_prefix: php-
+    mysql: {}
+
+  # PHP settings
+  php::settings:
+    PHP/display_errors: Off
+    PHP/enable_dl: Off
+    PHP/error_log: /var/log/apache2/php_errors.log
+    PHP/error_reporting: 'E_ALL & ~E_DEPRECATED'
+    PHP/html_errors: Off
+    PHP/log_errors: On
+    PHP/register_argc_argv: Off
+    PHP/request_order: GP
+    PHP/variables_order: GPCS

@@ -1,0 +1,21 @@
+---
+  apache::vhost:
+    webserver.example.com:
+      serveradmin: webmaster@example.com
+      servername: webserver.example.com
+      port: 80
+      docroot: /var/www/
+      manage_docroot: false
+      directories:
+        - path: /var/www/
+          options: [ FollowSymLinks, MultiViews ]
+          allow_override: FileInfo
+          require: all granted
+      access_log: true
+      access_log_file: webserver.example.com.log
+      error_log: true
+      error_log_file: webserver.example.com.err
+      log_level: warn
+  php::settings:
+    PHP/post_max_size: 8M
+    PHP/upload_max_filesize: 2M
