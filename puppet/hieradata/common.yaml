@@ -10,15 +10,23 @@
   php::composer: false
   php::fpm: false
   php::globals:
-    php_version: 7
-    config_root: /etc/php/7.0
+    php_version: 7.0
   php::manage_repos: false
-  php::pear: false
+  php::pear: true
+  php::ext_tool_enabled: true
+  php::ext_tool_enable: /usr/sbin/phpenmod -v 7.0
+  php::ext_tool_query: /usr/sbin/phpquery
 
   # PHP extensions
   php::extensions:
     curl: {}
     gd: {}
+    gmagick:
+      provider: pecl
+      source: channel://pecl.php.net/gmagick-2.0.2RC2
+      compiler_packages:
+        - build-essential
+        - libgraphicsmagick1-dev
     imagick:
       package_prefix: php-
     mcrypt: {}
