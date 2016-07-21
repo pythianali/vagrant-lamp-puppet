@@ -6,10 +6,20 @@ mod 'puppetlabs/concat'
 mod 'example42/puppi'
 
 # Apache
-mod 'puppetlabs/apache'
+mod 'puppetlabs/apache','1.10.0'
 
 # PHP
 mod 'darin/zypprepo'
 mod 'example42/yum'
 mod 'mayflower/php',
   :git => 'https://github.com/mayflower/puppet-php'
+
+# Mysql
+
+mod 'puppetlabs/mysql','3.8.0'
+
+# Redis
+mod 'arioch/redis','1.2.2'
+
+mod 'puppetlabs/git'
+mod 'puppetlabs/vcsrepo','1.2.0'
