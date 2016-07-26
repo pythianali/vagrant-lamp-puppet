@@ -23,25 +23,25 @@
 # __CA_DB_HOST__ = Database server host name (often 'localhost')
 #
 if (!defined("__CA_DB_HOST__")) {
-	define("__CA_DB_HOST__", 'localhost');
+	define("__CA_DB_HOST__",'<%= @database_host  %>');
 }
 
 # __CA_DB_USER__ = Database login user name
 #
 if (!defined("__CA_DB_USER__")) {
-	define("__CA_DB_USER__", 'my_database_user');
+	define("__CA_DB_USER__", '<%= @database_user  %>');
 }
 
 # __CA_DB_PASSWORD__ = Database login password
 #
 if (!defined("__CA_DB_PASSWORD__")) {
-	define("__CA_DB_PASSWORD__", 'my_database_password');
+	define("__CA_DB_PASSWORD__", '<%= @database_pass  %>');
 }
 
 # __CA_DB_DATABASE__ = The name of your CollectiveAccess database
 #
 if (!defined("__CA_DB_DATABASE__")) {
-	define("__CA_DB_DATABASE__", 'name_of_my_database');
+	define("__CA_DB_DATABASE__", '<%= @database_name  %>');
 }
 
 

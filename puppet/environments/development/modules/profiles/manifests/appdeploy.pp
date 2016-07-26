@@ -2,8 +2,12 @@ class profiles::appdeploy {
 
   $databases = hiera_hash('databases')
   create_resources('mysql::db', $databases)
-
-
+  
+  $database_host = $databases['CAdb']['host']
+  $database_user = $databases['CAdb']['user']
+  $database_pass = $databases['CAdb']['password']
+  $database_name = $databases['CAdb']['name']
+   
   vcsrepo { "/var/www/frontend":
     ensure => latest,
     provider => git,

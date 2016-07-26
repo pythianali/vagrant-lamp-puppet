@@ -7,6 +7,7 @@
 
   apache::vhost:
     frontend.example.com:
+      priority: 20
       serveradmin: webmaster@example.com
       servername: frontend.example.com
       port: 80
@@ -23,6 +24,7 @@
       error_log_file: backend.example.com.err
       log_level: warn
     backend.example.com:
+      priority: 25
       serveradmin: webmaster@example.com
       servername: backend.example.com
       port: 80
