@@ -1,5 +1,9 @@
 class profiles::appdeploy {
-  
+
+  $databases = hiera_hash('databases')
+  create_resources('mysql::db', $databases)
+
+
   vcsrepo { "/var/www/frontend":
     ensure => latest,
     provider => git,
@@ -48,6 +52,21 @@ class profiles::appdeploy {
      command  => "/bin/chown -R www-data:www-data /var/www/frontend/media",
      onlyif  => '/usr/bin/test -d /var/www/frontend/media',
      unless   => '/bin/ls -ld /var/www/frontend/media | /bin/grep "www-data www-data"',  }
+
+
+  file { 'setup.php.frontend':
+    path    => '/var/www/frontend/setup.php',
+    ensure  => file,
+    notify  => Service['apache2'],
+    content => template('profiles/setup-frontend.php.erb'),
+  }
+
+  file { 'setup.php.backend':
+    path    => '/var/www/backend/setup.php',
+    ensure  => file,
+    notify  => Service['apache2'],
+    content => template('profiles/setup-backend.php.erb'),
+  }
 
 }
 

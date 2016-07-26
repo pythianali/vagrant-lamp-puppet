@@ -1,0 +1,8 @@
+---
+  databases:
+    CAdb:
+      user: 'CAuser'
+      password: 'CApass'
+      host: 'localhost'
+      grant: 'SELECT,INSERT,UPDATE,DELETE'
+

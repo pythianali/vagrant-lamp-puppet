@@ -3,7 +3,7 @@ mod 'puppetlabs/stdlib'
 mod 'puppetlabs/apt'
 mod 'puppetlabs/inifile'
 mod 'puppetlabs/concat'
-mod 'example42/puppi'
+mod 'example42/puppi', '2.2.1'
 
 # Apache
 mod 'puppetlabs/apache','1.10.0'
@@ -23,3 +23,5 @@ mod 'arioch/redis','1.2.2'
 
 mod 'puppetlabs/git'
 mod 'puppetlabs/vcsrepo','1.2.0'
+mod 'puppet/staging','1.0.7'
+mod 'stahnma/epel','1.0.2'
