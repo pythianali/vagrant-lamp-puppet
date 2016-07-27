@@ -5,10 +5,7 @@
       user: 'CAuser'
       password: 'CApass'
       host: 'localhost'
-      grant: 
-       - DELETE
-       - INSERT
-       - SELECT
-       - UPDATE
-       - CREATE
-
+      grant:
+       - ALL
+  frontendpath: '/var/www/frontend'
+  backendpath: '/var/www/backend'

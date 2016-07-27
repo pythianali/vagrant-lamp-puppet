@@ -1,14 +1,19 @@
 class profiles::appdeploy {
 
+  include git
+
   $databases = hiera_hash('databases')
   create_resources('mysql::db', $databases)
-  
+
   $database_host = $databases['CAdb']['host']
   $database_user = $databases['CAdb']['user']
   $database_pass = $databases['CAdb']['password']
   $database_name = $databases['CAdb']['name']
-   
-  vcsrepo { "/var/www/frontend":
+
+  $frontendpath = hiera('frontendpath')
+  $backendpath = hiera('backendpath')
+
+  vcsrepo { "$frontendpath":
     ensure => latest,
     provider => git,
     source => 'https://github.com/collectiveaccess/pawtucket2.git',
@@ -16,8 +21,15 @@ class profiles::appdeploy {
     # eventually:
     # revision => 'branchname'
     require => Package["git"],
+  } ->
+  file { 'setup.php.frontend':
+    path    => "${frontendpath}/setup.php",
+    ensure  => file,
+    notify  => Service['apache2'],
+    content => template('profiles/setup-frontend.php.erb'),
   }
-  vcsrepo { "/var/www/backend":
+
+  vcsrepo { "$backendpath":
     ensure => latest,
     provider => git,
     source => 'https://github.com/collectiveaccess/providence.git',
@@ -25,52 +37,55 @@ class profiles::appdeploy {
     # eventually:
     # revision => 'branchname'
     require =>  Package["git"],
-  }
-
-  exec { 'backend/app/tmp chown':
-     command  => "/bin/chown -R www-data:www-data /var/www/backend/app/tmp",
-     onlyif  =>  '/usr/bin/test -d /var/www/backend/app/tmp',
-     unless   => '/bin/ls -ld /var/www/backend/app/tmp | /bin/grep "www-data www-data"',
-  }
-  exec { 'backend/vendor/ezyang/htmlpurifier chown':
-     command  => "/bin/chown -R www-data:www-data /var/www/backend/vendor/ezyang/htmlpurifier",
-     onlyif  =>  '/usr/bin/test -d /var/www/backend/vendor/ezyang/htmlpurifier',
-     unless   => '/bin/ls -ld /var/www/backend/ezyang/htmlpurifier | /bin/grep "www-data www-data"',
-  }
-  exec { 'backend/media chown':
-     command  => "/bin/chown -R www-data:www-data /var/www/backend/media",
-     onlyif  => '/usr/bin/test -d /var/www/backend/media',
-     unless   => '/bin/ls -ld /var/www/backend/media | /bin/grep "www-data www-data"',  }
-
-  exec { 'frontend/app/tmp chown':
-     command  => "/bin/chown -R www-data:www-data /var/www/frontend/app/tmp",
-     onlyif  => '/usr/bin/test -d /var/www/frontend/app/tmp',
-     unless   => '/bin/ls -ld /var/www/frontend/app/tmp | /bin/grep "www-data www-data"',
-  }
-  exec { 'frontend/vendor/ezyang/htmlpurifier chown':
-     command  => "/bin/chown -R www-data:www-data /var/www/frontend/vendor/ezyang/htmlpurifier",
-     onlyif  => '/usr/bin/test -d /var/www/frontend/vendor/ezyang/htmlpurifier',
-     unless   => '/bin/ls -ld /var/www/frontend/ezyang/htmlpurifier | /bin/grep "www-data www-data"',
-  }
-  exec { 'frontend/media chown':
-     command  => "/bin/chown -R www-data:www-data /var/www/frontend/media",
-     onlyif  => '/usr/bin/test -d /var/www/frontend/media',
-     unless   => '/bin/ls -ld /var/www/frontend/media | /bin/grep "www-data www-data"',  }
-
-
-  file { 'setup.php.frontend':
-    path    => '/var/www/frontend/setup.php',
-    ensure  => file,
-    notify  => Service['apache2'],
-    content => template('profiles/setup-frontend.php.erb'),
-  }
-
+  } ->
   file { 'setup.php.backend':
-    path    => '/var/www/backend/setup.php',
+    path    => "${backendpath}/setup.php",
     ensure  => file,
     notify  => Service['apache2'],
     content => template('profiles/setup-backend.php.erb'),
   }
 
-}
+  exec { 'backend/app/tmp chown':
+     command  => "/bin/chown -R www-data:www-data ${backendpath}/app/tmp",
+     onlyif  =>  '/usr/bin/test -d ${backendpath}/app/tmp',
+     unless   => '/bin/ls -ld ${backendpath}/app/tmp | /bin/grep "www-data www-data"',
+  }
+  exec { 'backend/vendor/ezyang/htmlpurifier chown':
+     command  => "/bin/chown -R www-data:www-data ${backendpath}/vendor/ezyang/htmlpurifier",
+     onlyif  =>  '/usr/bin/test -d ${backendpath}/vendor/ezyang/htmlpurifier',
+     unless   => '/bin/ls -ld ${backendpath}/ezyang/htmlpurifier | /bin/grep "www-data www-data"',
+  }
+  exec { 'backend/media chown':
+     command  => "/bin/chown -R www-data:www-data ${backendpath}/media",
+     onlyif  => '/usr/bin/test -d ${backendpath}/media',
+     unless   => '/bin/ls -ld ${backendpath}/media | /bin/grep "www-data www-data"',  }
 
+  exec { 'frontend/app/tmp chown':
+     command  => "/bin/chown -R www-data:www-data ${frontendpath}/app/tmp",
+     onlyif  => '/usr/bin/test -d ${frontendpath}/app/tmp',
+     unless   => '/bin/ls -ld ${frontendpath}/app/tmp | /bin/grep "www-data www-data"',
+  }
+  exec { 'frontend/vendor/ezyang/htmlpurifier chown':
+     command  => "/bin/chown -R www-data:www-data ${frontendpath}/vendor/ezyang/htmlpurifier",
+     onlyif  => '/usr/bin/test -d ${frontendpath}/vendor/ezyang/htmlpurifier',
+     unless   => '/bin/ls -ld ${frontendpath}/ezyang/htmlpurifier | /bin/grep "www-data www-data"',
+  }
+  exec { 'frontend/media chown':
+     command  => "/bin/chown -R www-data:www-data ${frontendpath}/media",
+     onlyif  => '/usr/bin/test -d ${frontendpath}/media',
+     unless   => '/bin/ls -ld ${frontendpath}/media | /bin/grep "www-data www-data"',  }
+
+  file { "${frontendpath}/media":
+    ensure => 'directory',
+    owner  => 'www-data',
+    group  => 'www-data',
+    mode   => '0755',
+  }
+  file { "${frontendpath}/media/collectiveaccess":
+    ensure => 'directory',
+    owner  => 'www-data',
+    group  => 'www-data',
+    mode   => '0755',
+  }
+
+}

@@ -16,7 +16,8 @@
       directories:
         - path: /var/www/frontend
           options: [ FollowSymLinks, MultiViews ]
-          allow_override: FileInfo
+#          allow_override: FileInfo
+          allow_override: All
           require: all granted
       access_log: true
       access_log_file: frontend.example.com.log
@@ -27,13 +28,14 @@
       priority: 25
       serveradmin: webmaster@example.com
       servername: backend.example.com
-      port: 80
+      port: 8080
       docroot: /var/www/backend
       manage_docroot: false
       directories:
         - path: /var/www/backend
           options: [ FollowSymLinks, MultiViews ]
-          allow_override: FileInfo
+#          allow_override: FileInfo
+          allow_override: All
           require: all granted
       access_log: true
       access_log_file: frontend.example.com.log
