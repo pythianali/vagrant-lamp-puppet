@@ -43,7 +43,7 @@ In future it may be possible for the configuration file to be generated automati
   # ---
   # Note: 'image' examples include:
   #   'matjazp/ubuntu-trusty64' (libvirt)
-  #   'puppetlabs/ubuntu-14.04-64-nocm' (virtualbox)
+  #   'puppetlabs/ubuntu-16.04-64-nocm' (virtualbox)
   #   'ami-ff427095' (AWS, https://cloud-images.ubuntu.com/locator/ec2/)
   #   'ubuntu-14-04' (Google)
   # Note: 'machine_type' examples include:
@@ -56,7 +56,7 @@ In future it may be possible for the configuration file to be generated automati
     nodes: 1
     cpus: 1
     memory: 512
-    image: yk0/ubuntu-xenial
+    image: puppetlabs/ubuntu-16.04-64-nocm
     machine_type: t2.micro
 
   # Puppet provisioner settings
