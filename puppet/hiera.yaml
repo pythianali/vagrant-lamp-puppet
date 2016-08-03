@@ -5,4 +5,7 @@
   :datadir: /vagrant/puppet/hieradata
 :hierarchy:
   - "%{calling_class}"
-  - common
+  - roles::lamp
+  - profiles::appdeploy
+  - roles::webserver
+#  - common
