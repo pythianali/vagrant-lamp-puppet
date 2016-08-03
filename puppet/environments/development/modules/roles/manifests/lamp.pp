@@ -7,7 +7,7 @@ class roles::lamp {
   include profiles::appdeploy
 
   include git
- 
+  
   $vhosts = hiera_hash('apache::vhost')
   create_resources('apache::vhost', $vhosts)
   

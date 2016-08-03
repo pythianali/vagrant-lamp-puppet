@@ -1,0 +1,9 @@
+---
+  mysql::server::
+    root_password: '1testtest'
+    remove_default_accounts: true
+    override_options:
+      mysqld:
+        'wait_timeout': '600'
+        'max_allowed_packet': '64M'
+

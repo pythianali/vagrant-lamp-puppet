@@ -70,22 +70,10 @@ class profiles::appdeploy {
      onlyif  => '/usr/bin/test -d ${frontendpath}/vendor/ezyang/htmlpurifier',
      unless   => '/bin/ls -ld ${frontendpath}/ezyang/htmlpurifier | /bin/grep "www-data www-data"',
   }
-  exec { 'frontend/media chown':
-     command  => "/bin/chown -R www-data:www-data ${frontendpath}/media",
-     onlyif  => '/usr/bin/test -d ${frontendpath}/media',
-     unless   => '/bin/ls -ld ${frontendpath}/media | /bin/grep "www-data www-data"',  }
-
   file { "${frontendpath}/media":
-    ensure => 'directory',
-    owner  => 'www-data',
-    group  => 'www-data',
-    mode   => '0755',
-  }
-  file { "${frontendpath}/media/collectiveaccess":
-    ensure => 'directory',
-    owner  => 'www-data',
-    group  => 'www-data',
-    mode   => '0755',
+    ensure => 'link',
+    target   => "${backendpath}/media",
+    force  => true,
   }
 
 }

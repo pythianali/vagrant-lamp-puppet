@@ -1,6 +1,11 @@
 class profiles::mysql {
   
-  include mysql::server  
+  $override_options = hiera_hash('mysql::server::override_options')
+ 
+  class { 'mysql::server':
+    override_options => $override_options,
+  }  
+  
   include mysql::client
  
 }
