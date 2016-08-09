@@ -1,7 +1,7 @@
 <?php
 # --------------------------------------------------------------------------------------------
-#   ____      _ _           _   _              _                         
-#  / ___|___ | | | ___  ___| |_(_)_   _____   / \   ___ ___ ___  ___ ___ 
+#   ____      _ _           _   _              _
+#  / ___|___ | | | ___  ___| |_(_)_   _____   / \   ___ ___ ___  ___ ___
 # | |   / _ \| | |/ _ \/ __| __| \ \ / / _ \ / _ \ / __/ __/ _ \/ __/ __|
 # | |__| (_) | | |  __/ (__| |_| |\ V /  __// ___ \ (_| (_|  __/\__ \__ \
 #  \____\___/|_|_|\___|\___|\__|_| \_/ \___/_/   \_\___\___\___||___/___/
@@ -9,7 +9,7 @@
 #               Pawtucket: Public-access front-end for CollectiveAccess
 #               Open-source collections management software
 #               Version 2.0
-#				
+#
 # -------------------------------------------------------------------------------------------
 # Need help setting up? Visit http://www.collectiveaccess.org/forum
 #
@@ -19,7 +19,7 @@
 
 
 #
-# The following settings allow CollectiveAccess to connect to its database. 
+# The following settings allow CollectiveAccess to connect to its database.
 # These settings should have been given to you by your system administrator or hosting provider.
 #
 # __CA_DB_HOST__ = Database server host name (often 'localhost')
@@ -65,7 +65,7 @@ define("__CA_APP_NAME__", "collectiveaccess");
 #		user interface for your instance of Pawtucket.
 #
 # 		The theme name is a simple alphanumeric string with no punctunation or spaces - just A-Z, a-z, 0-9 and _
-#		The name should match a directory name in the themes directory. You can create your own theme by 
+#		The name should match a directory name in the themes directory. You can create your own theme by
 # 		adding it to the themes directory in an appropriately named directory and then setting an entry in the
 # 		$_CA_THEMES_BY_DEVICE below. This array defines which themes to use for specific user agents. Set the key
 #		(left side value) for an entry to a piece of text or Perl-compatible regular expression that matches the user agent
@@ -73,10 +73,10 @@ define("__CA_APP_NAME__", "collectiveaccess");
 #		Thus to assign a theme to use specifically for iPhone devices you would create an entry with a key of 'iphone' (or
 #		'iPhone' as it is case insensitive). The value (right side value) must be the name of a valid theme in your installation's
 # 		themes/ directory. The theme set for the special key '_default_' is used when no rule matches a user agent.
-#		
+#
 #
 $_CA_THEMES_BY_DEVICE = array(
-	'_default_' 	=> 'default'		// use the 'default' theme for everything else
+	'_default_' 	=> '<%= @themes_by_device  %>'		// use the 'default' theme for everything else
 );
 
 
@@ -88,7 +88,7 @@ define("__CA_ADMIN_EMAIL__", 'info@put-your-domain-here.com');
 
 #
 # The following settings define how CA sends email on your server. These settings
-# should have been given to you by your system administrator or hosting provider. 
+# should have been given to you by your system administrator or hosting provider.
 #
 # If you have no idea what to set these values to leave them as-is. There's a
 # chance the defaults will work.
@@ -112,7 +112,7 @@ define("__CA_SMTP_PORT__", 25);
 
 
 #
-# You can set your time zone here. The default is to use US Eastern Standard Time. 
+# You can set your time zone here. The default is to use US Eastern Standard Time.
 # You can, and should, set an explicit time zone if you are not in the Eastern United States.
 # A list of valid time zone settings is available at http://us3.php.net/manual/en/timezones.php
 #
@@ -129,7 +129,7 @@ date_default_timezone_set('America/New_York');
 #
 # Note that whatever value you set *MUST* be configured in your system, either by hand or by an installation
 # profile. The default value is US/English, which exists in most configurations.
-# 
+#
 define("__CA_DEFAULT_LOCALE__", "en_US");
 
 
@@ -141,24 +141,24 @@ define("__CA_DEFAULT_LOCALE__", "en_US");
 #
 # Only set this if your web server includes mod_rewrite and it is enabled using
 # the provided .htaccess file
-# 
+#
 
-define("__CA_USE_CLEAN_URLS__", 0);
+define("__CA_USE_CLEAN_URLS__", <%= @use_clean_urls  %>);
 
-# *** 
-# __   __          _                _                  
-# \ \ / /__  _   _( )_ __ ___    __| | ___  _ __   ___ 
+# ***
+# __   __          _                _
+# \ \ / /__  _   _( )_ __ ___    __| | ___  _ __   ___
 #  \ V / _ \| | | |/| '__/ _ \  / _` |/ _ \| '_ \ / _ \
 #   | | (_) | |_| | | | |  __/ | (_| | (_) | | | |  __/
 #   |_|\___/ \__,_| |_|  \___|  \__,_|\___/|_| |_|\___|
-#                                                     
+#
 # That's it! The settings here should be enough to get you up and running...
 # If they're not you can find help at http://www.collectiveaccess.org/forum
 #
 # ***
 
 # --------------------------------------------------------------------------------------------
-# IF THE INSTALLER FAILS TO FIND THE SYSTEM CONFIGURATION OR SOME OF THE LESS COMMON 
+# IF THE INSTALLER FAILS TO FIND THE SYSTEM CONFIGURATION OR SOME OF THE LESS COMMON
 # OPTIONS NEED CHANGING THEN YOU MAY NEED TO CHANGE ONE OR MORE SETTINGS UNDER THIS LINE
 #
 # Most of the time you won't need to change anything below
@@ -169,9 +169,9 @@ define("__CA_USE_CLEAN_URLS__", 0);
 #
 # The task queue allows users to push potentially long running processes, such as processing of large video and image files,
 # into the "background," allowing users to continue working.
-# 
-# Set this to a non-zero value if you want to use the task queue. Be sure to configure the task 
-# queue processing script to run (usually via CRON) if you set this option. Set up details are 
+#
+# Set this to a non-zero value if you want to use the task queue. Be sure to configure the task
+# queue processing script to run (usually via CRON) if you set this option. Set up details are
 # available at http://docs.collectiveaccess.org
 #
 define("__CA_QUEUE_ENABLED__", 0);
@@ -192,10 +192,10 @@ define("__CA_BASE_DIR__", pathinfo(preg_replace("!/install|/viewers/apps!", "", 
 #
 # __CA_URL_ROOT__ = the root-relative URL path to your CollectiveAccess installation
 #
-#		The default value attempts to determine the relative URL path automatically. You should only change 
+#		The default value attempts to determine the relative URL path automatically. You should only change
 #		this if it's failing to derive the correct value.
 #
-#		If you must to set this manually leave the __CA_URL_ROOT_ *BLANK* if the CollectiveAccess directory is the 
+#		If you must to set this manually leave the __CA_URL_ROOT_ *BLANK* if the CollectiveAccess directory is the
 #		web server root or in the root directory of a virtual host. If CollectiveAccess is in a subdirectory or
 #		an alias is used to point the web server to the correct path, set '__CA_URL_ROOT__' to
 #		the relative url path to the subdirectory; start the path with a slash ('/') but omit trailing slashes.
@@ -208,7 +208,7 @@ define("__CA_URL_ROOT__", str_replace($_SERVER['DOCUMENT_ROOT'], '', __CA_BASE_D
 #
 # __CA_SITE_HOSTNAME__ = the hostname for your system
 #
-#		The default value attempts to determine the relative URL path automatically. You should only change 
+#		The default value attempts to determine the relative URL path automatically. You should only change
 #		this if it's failing to derive the correct value.
 #
 #		If you must set this manually, it must be the full host name. Do not include http:// or any other prefixes.
@@ -223,7 +223,7 @@ define("__CA_SITE_HOSTNAME__", $_SERVER['HTTP_HOST']);
 # mysql = old mysql drive, mysqli = "new" driver, pdo_mysql = PDO driver_version; mysqli is recommended
 define("__CA_DB_TYPE__", 'mysqli');
 
-# Path to CollectiveAccess 'app' directory 
+# Path to CollectiveAccess 'app' directory
 define("__CA_APP_DIR__", __CA_BASE_DIR__."/app");
 
 # Path to CollectiveAccess 'models' directory containing database table model classes
@@ -244,7 +244,7 @@ $_CA_INSTANCE_CONFIG_FILES = array(
 
 if (!isset($_SERVER['HTTP_HOST']) || !isset($_CA_INSTANCE_CONFIG_FILES[$_SERVER['HTTP_HOST']]) || !($_CA_CONFIG_PATH = $_CA_INSTANCE_CONFIG_FILES[$_SERVER['HTTP_HOST']])) {
 	$_CA_CONFIG_PATH = $_CA_INSTANCE_CONFIG_FILES['_default_'];
-} 
+}
 if (!(file_exists($_CA_CONFIG_PATH))) {
 	$opa_error_messages = array("Configuration files are missing for hostname '".$_SERVER['HTTP_HOST']."'!<br/>Please check the <em>__CA_BASE_DIR__</em> configuration setting in your <em>setup.php</em> file.");
 	if (!include_once("./themes/default/views/system/configuration_error_html.php")) {
@@ -310,7 +310,7 @@ define('__CA_REDIS_PORT__', 6379);
 # --------------------------------------------------------------------------------------------
 
 # let libraries know what application we're in
-define("__CA_APP_TYPE__", "PAWTUCKET");	
+define("__CA_APP_TYPE__", "PAWTUCKET");
 
 # include version number
 require_once(__CA_APP_DIR__.'/version.php');
@@ -332,8 +332,8 @@ if (defined('E_DEPRECATED')) {	// PHP 5.3/5.4
 define('__CA_ENABLE_DEBUG_OUTPUT__', false);
 
 /* ----------------------------------------------------------------------
- * setup.php : 	defines paths for Pawtucket public access front-end; enables the 
- *				application to find various support files. This is the first file 
+ * setup.php : 	defines paths for Pawtucket public access front-end; enables the
+ *				application to find various support files. This is the first file
  *				you should set up when configuring the application.
  * ----------------------------------------------------------------------
  * CollectiveAccess
@@ -349,10 +349,10 @@ define('__CA_ENABLE_DEBUG_OUTPUT__', false);
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org

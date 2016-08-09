@@ -9,3 +9,5 @@
        - ALL
   frontendpath: '/var/www/frontend'
   backendpath: '/var/www/backend'
+  themes_by_device: 'sept11mm'
+  use_clean_urls: 1

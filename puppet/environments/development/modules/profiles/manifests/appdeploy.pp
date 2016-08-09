@@ -12,6 +12,9 @@ class profiles::appdeploy {
 
   $frontendpath = hiera('frontendpath')
   $backendpath = hiera('backendpath')
+  $themes_by_device = hiera('themes_by_device')
+  $use_clean_urls = hiera('use_clean_urls')
+
 
   vcsrepo { "$frontendpath":
     ensure => latest,
@@ -27,6 +30,16 @@ class profiles::appdeploy {
     ensure  => file,
     notify  => Service['apache2'],
     content => template('profiles/setup-frontend.php.erb'),
+  } ->
+  exec { 'frontend/app/tmp chown':
+     command  => "/bin/chown -R www-data:www-data ${frontendpath}/app/tmp",
+     onlyif  => "/usr/bin/test -d ${frontendpath}/app/tmp",
+     unless   => "/bin/ls -ld ${frontendpath}/app/tmp | /bin/grep 'www-data www-data'",
+  } ->
+  exec { 'frontend/vendor/ezyang/htmlpurifier chown':
+     command  => "/bin/chown -R www-data:www-data ${frontendpath}/vendor/ezyang/htmlpurifier",
+     onlyif  => "/usr/bin/test -d ${frontendpath}/vendor/ezyang/htmlpurifier",
+     unless   => "/bin/ls -ld ${frontendpath}/ezyang/htmlpurifier | /bin/grep 'www-data www-data'",
   }
 
   vcsrepo { "$backendpath":
@@ -43,33 +56,27 @@ class profiles::appdeploy {
     ensure  => file,
     notify  => Service['apache2'],
     content => template('profiles/setup-backend.php.erb'),
-  }
-
+  } ->
   exec { 'backend/app/tmp chown':
      command  => "/bin/chown -R www-data:www-data ${backendpath}/app/tmp",
-     onlyif  =>  '/usr/bin/test -d ${backendpath}/app/tmp',
-     unless   => '/bin/ls -ld ${backendpath}/app/tmp | /bin/grep "www-data www-data"',
-  }
+     onlyif  =>  "/usr/bin/test -d ${backendpath}/app/tmp",
+     unless   => "/bin/ls -ld ${backendpath}/app/tmp | /bin/grep 'www-data www-data'",
+  } ->
+  exec { 'backend/app/log chown':
+     command  => "/bin/chown -R www-data:www-data ${backendpath}/app/log",
+     onlyif  =>  "/usr/bin/test -d ${backendpath}/app/log",
+     unless   => "/bin/ls -ld ${backendpath}/app/log | /bin/grep 'www-data www-data'",
+  } ->
   exec { 'backend/vendor/ezyang/htmlpurifier chown':
      command  => "/bin/chown -R www-data:www-data ${backendpath}/vendor/ezyang/htmlpurifier",
-     onlyif  =>  '/usr/bin/test -d ${backendpath}/vendor/ezyang/htmlpurifier',
-     unless   => '/bin/ls -ld ${backendpath}/ezyang/htmlpurifier | /bin/grep "www-data www-data"',
-  }
+     onlyif  =>  "/usr/bin/test -d ${backendpath}/vendor/ezyang/htmlpurifier",
+     unless   => "/bin/ls -ld ${backendpath}/ezyang/htmlpurifier | /bin/grep 'www-data www-data'",
+  } ->
   exec { 'backend/media chown':
      command  => "/bin/chown -R www-data:www-data ${backendpath}/media",
-     onlyif  => '/usr/bin/test -d ${backendpath}/media',
-     unless   => '/bin/ls -ld ${backendpath}/media | /bin/grep "www-data www-data"',  }
-
-  exec { 'frontend/app/tmp chown':
-     command  => "/bin/chown -R www-data:www-data ${frontendpath}/app/tmp",
-     onlyif  => '/usr/bin/test -d ${frontendpath}/app/tmp',
-     unless   => '/bin/ls -ld ${frontendpath}/app/tmp | /bin/grep "www-data www-data"',
-  }
-  exec { 'frontend/vendor/ezyang/htmlpurifier chown':
-     command  => "/bin/chown -R www-data:www-data ${frontendpath}/vendor/ezyang/htmlpurifier",
-     onlyif  => '/usr/bin/test -d ${frontendpath}/vendor/ezyang/htmlpurifier',
-     unless   => '/bin/ls -ld ${frontendpath}/ezyang/htmlpurifier | /bin/grep "www-data www-data"',
-  }
+     onlyif  => "/usr/bin/test -d ${backendpath}/media",
+     unless   => "/bin/ls -ld ${backendpath}/media | /bin/grep 'www-data www-data'",
+  } ->
   file { "${frontendpath}/media":
     ensure => 'link',
     target   => "${backendpath}/media",
