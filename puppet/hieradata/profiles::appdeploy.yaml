@@ -11,3 +11,5 @@
   backendpath: '/var/www/backend'
   themes_by_device: 'sept11mm'
   use_clean_urls: 1
+  app_display_name: 'National September 11th Memorial &amp; Museum Collection'
+  admin_email: 'onlinecollection@911memorial.org'

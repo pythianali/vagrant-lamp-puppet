@@ -44,7 +44,7 @@ define("__CA_DB_DATABASE__", '<%= @database_name  %>');
 #
 #		This value will be used on emails, on the login screen, in window titles, etc.
 #
-define("__CA_APP_DISPLAY_NAME__", "My First CollectiveAccess System");
+define("__CA_APP_DISPLAY_NAME__", "<%= @app_display_name  %>");
 
 
 #
@@ -83,7 +83,7 @@ $_CA_THEMES_BY_DEVICE = array(
 #
 # __CA_ADMIN_EMAIL__ = the email address to receive administrative messages from CollectiveAccess
 #
-define("__CA_ADMIN_EMAIL__", 'info@put-your-domain-here.com');
+define("__CA_ADMIN_EMAIL__", '<%= @admin_email  %>');
 
 
 #

@@ -14,6 +14,8 @@ class profiles::appdeploy {
   $backendpath = hiera('backendpath')
   $themes_by_device = hiera('themes_by_device')
   $use_clean_urls = hiera('use_clean_urls')
+  $app_display_name = hiera('app_display_name')
+  $admin_email = hiera('admin_email')
 
 
   vcsrepo { "$frontendpath":
@@ -81,6 +83,12 @@ class profiles::appdeploy {
     ensure => 'link',
     target   => "${backendpath}/media",
     force  => true,
+  }
+
+  cron { 'flush-frontend-app-tmp':
+    command => "/bin/rm -rf ${frontendpath}/app/tmp/*",
+    user    => 'root',
+    hour    => ['0,12'],
   }
 
 }
